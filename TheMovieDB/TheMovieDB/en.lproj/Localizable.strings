@@ -1,0 +1,13 @@
+/* 
+  Localizable.strings
+  TheMovieDB
+
+  Created by MANZANO MARTINEZ, ALAIN MARIANO on 30/03/22.
+  
+*/
+
+usuario = "Username";
+password = "Password";
+textLoginBtn = "Log in";
+lblLoginValidate = "Invalid username and/or password: You did not provide a valid login.";
+red =  "No network access, please verify that your device has an internet connection";
