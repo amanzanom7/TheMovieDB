@@ -8,78 +8,55 @@
 import Foundation
 
 
-class ViewModelLogin{
+class ViewModelLogin: NSObject{
 	
 	
 	var refreshData = { ( ) -> () in }
-	
+//	let decoder = JSONDecoder()
+
 	var loginToken = LoginToken()
-	
+	let parcer:FeedBack = FeedBack()
+
 	func retrieveData(endpoint:String){
 		
-		var contURL = Util.getDataPlistFile(nameString: "urlAuth") as? String
-		contURL = contURL! + endpoint + Util.Encabezado.login
-		guard let url = URL (string: contURL!) else { return }
-		
-		URLSession.shared.dataTask(with: url) { (data, response, error) in
-			guard let json = data else { return }
-			
-			
-			if error == nil && data != nil
-			{
-				let decoder = JSONDecoder()
-				
-				do {
-					self.loginToken = try decoder.decode(LoginToken.self, from: json)
-					print("response \(self.loginToken.request_token)")
-				}catch let error {
-					print("Oh no... un error en la matrixx: \(error.localizedDescription)")
-				}
-			}
-			
-		}.resume()
-	}
-	
-	func sendData(endpoint:String, user:String, pass:String){
-		
-		var contURL = Util.getDataPlistFile(nameString: "urlAuth") as? String
-		contURL = contURL! + endpoint + Util.Encabezado.login
-		guard let url = URL (string: contURL!) else { return }
-		
-		let userRequest = user
-		let passRequest = pass
-		let token = loginToken.request_token
-		
-		let logValidate = LoginValidate.init(username: userRequest, password: passRequest, request_token: token)
-		do{
-		var callPetition = URLRequest(url: url)
-		callPetition.httpMethod = "POST"
-		callPetition.addValue("application/json", forHTTPHeaderField: "Content-Type")
-		callPetition.httpBody = try JSONEncoder().encode(logValidate)
-			
-			URLSession.shared.dataTask(with: callPetition) { (data, response, error) in
-				guard let json = data else { return }
-				
-				
-				if error == nil && data != nil
-				{
-					let decoder = JSONDecoder()
-					
-					do {
-						let feedback = try decoder.decode(LoginToken.self, from: json)
-						print("response \(feedback)")
-					}catch let error {
-						print("Oh no... un error en la matrixx: \(error.localizedDescription)")
-					}
-				}
-				
-			}.resume()
-			
-		}catch  let error {
-			print("Oh no... un error en la matrixx: \(error.localizedDescription)")
-		}
-		
+		let json = 	self.parcer.callWebService(Data(), endpoint: "/token/new?api_key=",post: false)
+		self.loginToken = LoginToken(json.getData())
 
 	}
 	
+	func sendData(endpoint:String, user:String, pass:String) -> AnyObject
+	{
+		let userRequest = user
+		let passRequest = pass
+		let token = self.loginToken.request_token
+		var objAnyObject:AnyObject = LoginMessage()
+		if !token.isEmpty
+		{
+			
+			let logValidate = LoginValidate.init(username: userRequest, password: passRequest, request_token: token)
+			
+			let json = JSONSerializer.toJson(logValidate)
+			print("json: \(json)")
+			
+			let data = json.data(using: String.Encoding.utf8)!
+			
+			let jsonResponse = parcer.callWebService(data, endpoint: "/token/validate_with_login?api_key=",post: true)
+			let valida = LoginMessage(jsonResponse.getData())
+			if !valida.success
+			{
+			      objAnyObject  = valida
+				
+			}else {
+				let loginExitoso = LoginToken(jsonResponse.getData())
+			      objAnyObject = loginExitoso
+			}
+				//objLoginMessage = try decoder.decode(LoginMessage.self, from: jsonResponse)
+			
+		}else {
+			print(" \(NSLocalizedString("lblLoginValidate", comment: "Invalid user or password"))")
+		}
+		
+		return objAnyObject
+	}
+
 }

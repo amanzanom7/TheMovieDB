@@ -29,9 +29,9 @@ open class Util : NSObject
 		let txtGen: UITextField = UITextField.init(frame: CGRect(x: posX, y: posY, width: width, height: height))
 		txtGen.placeholder = stringPlaceholder
 		txtGen.backgroundColor = .white
-		txtGen.clearButtonMode = .whileEditing
+		txtGen.clearButtonMode = .always
 		txtGen.borderStyle = .roundedRect
-		
+	
 		return txtGen
 	}
 	
@@ -80,4 +80,5 @@ open class Util : NSObject
 
 		return status
 	}
+
 }

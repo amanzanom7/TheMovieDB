@@ -21,6 +21,8 @@
 		B3ABDB6C27F5454900D3EA06 /* ViewModelLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3ABDB6B27F5454900D3EA06 /* ViewModelLogin.swift */; };
 		B3ABDB6E27F5601B00D3EA06 /* FeedBack.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3ABDB6D27F5601B00D3EA06 /* FeedBack.swift */; };
 		B3ABDB7027F560AE00D3EA06 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3ABDB6F27F560AE00D3EA06 /* Reachability.swift */; };
+		B3C9983A27F600C8000C0B3B /* JsonSerializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3C9983927F600C8000C0B3B /* JsonSerializer.swift */; };
+		B3C9984027F62133000C0B3B /* JSONJoy.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3C9983F27F62133000C0B3B /* JSONJoy.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -41,6 +43,8 @@
 		B3ABDB6B27F5454900D3EA06 /* ViewModelLogin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelLogin.swift; sourceTree = "<group>"; };
 		B3ABDB6D27F5601B00D3EA06 /* FeedBack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedBack.swift; sourceTree = "<group>"; };
 		B3ABDB6F27F560AE00D3EA06 /* Reachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
+		B3C9983927F600C8000C0B3B /* JsonSerializer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JsonSerializer.swift; sourceTree = "<group>"; };
+		B3C9983F27F62133000C0B3B /* JSONJoy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONJoy.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -120,6 +124,8 @@
 				B33061C327F52CC700BF5945 /* Data.plist */,
 				B3ABDB6D27F5601B00D3EA06 /* FeedBack.swift */,
 				B3ABDB6F27F560AE00D3EA06 /* Reachability.swift */,
+				B3C9983927F600C8000C0B3B /* JsonSerializer.swift */,
+				B3C9983F27F62133000C0B3B /* JSONJoy.swift */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -202,11 +208,13 @@
 				B33061C027F5249400BF5945 /* Extension.swift in Sources */,
 				B33061C627F52D3500BF5945 /* Util.swift in Sources */,
 				B33061A927F5134200BF5945 /* ViewController.swift in Sources */,
+				B3C9984027F62133000C0B3B /* JSONJoy.swift in Sources */,
 				B33061A527F5134200BF5945 /* AppDelegate.swift in Sources */,
 				B3ABDB7027F560AE00D3EA06 /* Reachability.swift in Sources */,
 				B33061BD27F5230A00BF5945 /* LoginVO.swift in Sources */,
 				B3ABDB6E27F5601B00D3EA06 /* FeedBack.swift in Sources */,
 				B33061A727F5134200BF5945 /* SceneDelegate.swift in Sources */,
+				B3C9983A27F600C8000C0B3B /* JsonSerializer.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

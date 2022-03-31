@@ -45,7 +45,19 @@ extension UIButton
 		self.layer.borderColor = color
 		self.clipsToBounds = true
 	}
-	
+	func enable(_ flag:Bool){
+		if flag{
+			self.isEnabled = true
+		}else{
+			self.isEnabled = false
+		}
+	}
+}
+extension Data
+{
+	func getData() -> JSONDecoder {
+		return JSONDecoder(self as AnyObject)
+	}
 }
 
 typealias BloqueGenerico = () -> Void
@@ -63,3 +75,4 @@ extension NSObject
 	
 	}
 }
+

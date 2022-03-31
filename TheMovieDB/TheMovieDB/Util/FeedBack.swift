@@ -32,6 +32,7 @@ class FeedBack: NSObject, URLSessionDelegate
 	var iTimeOut:Int = 60
 	var callPetition = NSMutableURLRequest()
 	var dataResponse:Data = Data()
+	var stringResponse:String = ""
 	override init()
 	{
 		super.init()
@@ -40,28 +41,20 @@ class FeedBack: NSObject, URLSessionDelegate
 
 	
 
-	func callWebService(_ request: LoginToken, endpoint:String, post:Bool) -> Data
+	func callWebService(_ request: Data, endpoint:String, post:Bool) -> Data
 	{
 
-		var exito:Bool = true
-		var dResponse = NSMutableDictionary ()
-		
 		var contURL = Util.getDataPlistFile(nameString: "urlAuth") as? String
 		contURL = contURL! + endpoint + Util.Encabezado.login
 		guard let url = URL (string: contURL!) else { return Data() }
 		
 		let timeOut:TimeInterval = TimeInterval(iTimeOut)
-
-		do{
-			
+		
 		callPetition = NSMutableURLRequest(url: url, cachePolicy: NSURLRequest.CachePolicy.reloadIgnoringLocalCacheData, timeoutInterval: timeOut)
-			if post {
-				callPetition.httpMethod = "POST"
-				callPetition.addValue("application/json", forHTTPHeaderField: "Content-Type")
-				callPetition.httpBody = try JSONEncoder().encode(request)
-			}
-		}catch  let error {
-			print("Oh no... un error en la matrixx: \(error.localizedDescription)")
+		if post {
+			callPetition.httpMethod = "POST"
+			callPetition.addValue("application/json", forHTTPHeaderField: "Content-Type")
+			callPetition.httpBody = request
 		}
 
 		if Util.netStatus() == Reachability.NetworkStatus.notReachable
@@ -94,7 +87,7 @@ class FeedBack: NSObject, URLSessionDelegate
 			if let data = task.0,
 				let jsonString = NSString(data: data, encoding: String.Encoding.utf8.rawValue), task.2 == nil {
 				self.dataResponse = data
-			
+				self.stringResponse = jsonString as String
 				print("\n************\n")
 				print("RESPUESTA WS")
 				print("\n************\n")
