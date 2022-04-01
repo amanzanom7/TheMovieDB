@@ -37,7 +37,7 @@ class ResultsVO:JSONJoy{
 	var id:Int
 	var popularity:Float
 	var media_type:String = ""
-
+	var off:Bool!
 
 	required init(_ decoder: JSONDecoder) {
 		

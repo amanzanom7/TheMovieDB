@@ -12,6 +12,11 @@ class ViewDetail: UIView, UICollectionViewDataSource, UICollectionViewDelegate
 	
 	var collectionView:UICollectionView?
 	var detail:DetailVO = DetailVO()
+	var resultsResponse: ResultsVO!
+	var controller:ViewControllerMovies = ViewControllerMovies()
+	var imageOff = UIImage(named:"star")
+	var imageOn = UIImage(named:"fullStar")
+	var favSelect =  false
 
 	override func awakeFromNib() {
 		super.awakeFromNib()
@@ -70,6 +75,12 @@ class ViewDetail: UIView, UICollectionViewDataSource, UICollectionViewDelegate
 		return label
 	}()
 	
+	private let btnFav:UIButton = {
+		let btn = UIButton()
+		btn.backgroundColor = .white
+		return btn
+	}()
+	
 	override init(frame: CGRect) {
 		super.init(frame: frame)
 		self.backgroundColor = .darkGray
@@ -77,6 +88,7 @@ class ViewDetail: UIView, UICollectionViewDataSource, UICollectionViewDelegate
 		self.addSubview(lblDescrip)
 		self.addSubview(lblGenero)
 		self.addSubview(lblTittleProductora)
+		self.addSubview(btnFav)
 	}
 	override func layoutSubviews() {
 		super.layoutSubviews()
@@ -95,8 +107,66 @@ class ViewDetail: UIView, UICollectionViewDataSource, UICollectionViewDelegate
 		let offSetYlblGenero:CGFloat = lblGenero.frame.origin.y + lblGenero.frame.size.height 
 		lblTittleProductora.frame = CGRect(x: offSetX, y: offSetYlblGenero, width: offSetWidth, height: 35)
 		
+		btnFav.frame = CGRect(x: offSetX, y: offSetYlblGenero, width: 45, height: 45)
+		btnFav.setBackgroundImage(imageOff!, for: UIControl.State.normal)
+		if Singleton.sharedInstance.categoriasMovies.count > 0
+		{
+			for obj in Singleton.sharedInstance.categoriasMovies
+			{
+				if obj.id == self.resultsResponse.id
+				{
+					favSelect = true
+					btnFav.setBackgroundImage(imageOn!, for: UIControl.State.normal)
+					break
+				}
+			}
+		}
+		btnFav.addTarget(self, action: #selector(self.tapStar(_:)), for: .touchUpInside)
+
 		collectionControl()
 	}
+	
+	@objc fileprivate func tapStar(_ sender:AnyObject){
+		var pos = 0
+
+		if !favSelect
+		{
+			favSelect = true
+			btnFav.setBackgroundImage(imageOn!, for: UIControl.State.normal)
+			
+			if Singleton.sharedInstance.resultsResponse.count == 0
+			{
+				Singleton.sharedInstance.resultsResponse.append(self.resultsResponse)
+			}else {
+				for obj in Singleton.sharedInstance.resultsResponse
+				{
+					if obj.id != self.resultsResponse.id
+					{
+						self.resultsResponse.off = true
+						Singleton.sharedInstance.resultsResponse.append(self.resultsResponse)
+						break
+					}
+					pos = pos + 1
+				}
+			}
+			
+		}else {
+			
+			favSelect = false
+			btnFav.setBackgroundImage(imageOff!, for: UIControl.State.normal)
+			for obj in Singleton.sharedInstance.resultsResponse
+			{
+				if obj.id == self.resultsResponse.id
+				{
+					
+					Singleton.sharedInstance.resultsResponse.remove(at: pos)
+					break
+				}
+				pos = pos + 1
+			}
+		}
+	}
+	
 	func collectionControl()
 	{
 		let xPostionCollection:CGFloat = 20
@@ -137,8 +207,6 @@ class ViewDetail: UIView, UICollectionViewDataSource, UICollectionViewDelegate
 
 	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 		
-
-		print("\(indexPath.row)")
 	}
 	
 	public func configureCollection()

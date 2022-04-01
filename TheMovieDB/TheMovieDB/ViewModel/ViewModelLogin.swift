@@ -18,7 +18,7 @@ class ViewModelLogin: NSObject{
 		
 		let json = 	self.parcer.callWebService(Data(), endpoint: endpoint,post: false,parameter: false, stringParameter: "")
 		self.loginToken = LoginToken(json.getData())
-
+		
 	}
 	
 	func sendData(endpoint:String, user:String, pass:String) -> AnyObject
@@ -29,11 +29,9 @@ class ViewModelLogin: NSObject{
 		var objAnyObject:AnyObject = LoginMessage()
 		if !token.isEmpty
 		{
-			
 			let logValidate = LoginValidate.init(username: userRequest, password: passRequest, request_token: token)
-			
+	
 			let json = JSONSerializer.toJson(logValidate)
-			print("json: \(json)")
 			
 			let data = json.data(using: String.Encoding.utf8)!
 			

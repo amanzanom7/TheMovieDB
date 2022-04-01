@@ -22,6 +22,7 @@ class ViewController: UIViewController,UITextFieldDelegate {
 	override func viewDidLoad() {
 		super.viewDidLoad()
 
+		
 		self.setComponents()
 		
 	}
@@ -83,6 +84,7 @@ class ViewController: UIViewController,UITextFieldDelegate {
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(true)
 		
+		Singleton.resetInstance()
 		self.txtUsr.text = ""
 		self.txtPass.text = ""
 	}
@@ -124,24 +126,7 @@ class ViewController: UIViewController,UITextFieldDelegate {
 			let maxLength = 20
 			let currentString: NSString = textField.text! as NSString
 			let newString: NSString = currentString.replacingCharacters(in: range, with: string) as NSString
-
-			let longitudCorrecta = newString.length <= maxLength
-			let letters = CharacterSet.alphanumerics
-
-			if longitudCorrecta {
-				let range = string.rangeOfCharacter(from: letters)
-				if let _ = range
-				{
-					return true
-				}
-				else
-				{
-					if string == " " || string == ""
-					{
-						result = true
-					}
-				}
-			}
+			result = newString.length <= maxLength
 		}
 		
 
@@ -175,6 +160,8 @@ class ViewController: UIViewController,UITextFieldDelegate {
 			let alerta:ActivityAlert = ActivityAlert.init()
 			alerta.crearControl()
 			self.view.addSubview(alerta)
+			
+			
 			let bloqueConsumo:BloqueGenerico =
 			{ () in
 				objLoginMessage = self.viewModel.sendData(endpoint: "/authentication/token/validate_with_login?api_key", user: user, pass: pass)
@@ -186,7 +173,6 @@ class ViewController: UIViewController,UITextFieldDelegate {
 				
 				if objLoginMessage.isKind(of: LoginMessage.self)
 				{
-					print("LoginMessage")
 					let message:LoginMessage = objLoginMessage as! LoginMessage
 					if !message.success
 					{
@@ -195,6 +181,7 @@ class ViewController: UIViewController,UITextFieldDelegate {
 
 				}else if objLoginMessage.isKind(of: SesionToken.self)
 				{
+					Singleton.sharedInstance.userLogin = self.txtUsr.text!
 					self.sesion = (objLoginMessage as! SesionToken)
 					self.vcMovies.controller = self
 					self.add(asChildViewController: self.vcMovies)

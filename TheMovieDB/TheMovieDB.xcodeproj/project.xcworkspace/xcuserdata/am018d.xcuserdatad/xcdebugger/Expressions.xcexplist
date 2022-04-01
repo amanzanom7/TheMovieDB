@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VariablesViewState
+   version = "1.0">
+   <ContextStates>
+      <ContextState
+         contextName = "ViewControllerProfile.collectionControl():ViewControllerProfile.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "Singleton.sharedInstance.categoriasMovies">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "ViewControllerMovies.guardaFavorito():ViewControllerMovies.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "Singleton.sharedInstance.resultsResponse">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "ViewControllerProfile.collectionView(_:numberOfItemsInSection:):ViewControllerProfile.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "Singleton.sharedInstance.categoriasMovies">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "ViewModelCollection.retrieveDataDetail(endpoint:parameter:stringParameter:):ViewModelCollection.swift">
+      </ContextState>
+   </ContextStates>
+</VariablesViewState>

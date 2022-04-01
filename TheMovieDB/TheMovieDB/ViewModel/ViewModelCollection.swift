@@ -27,7 +27,6 @@ class ViewModelCollection: NSObject{
 		var pos = 0
 		for obj in detail.production_companies
 		{
-
 			if obj.logo_path.isEmpty 
 			{
 				detail.production_companies.remove(at: pos)

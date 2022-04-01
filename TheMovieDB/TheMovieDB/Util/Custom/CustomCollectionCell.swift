@@ -14,7 +14,7 @@ class CustomCollectionCell: UICollectionViewCell {
 	
 	private let imgViewCell: UIImageView = {
 		let imageView:UIImageView = UIImageView()
-		imageView.image = UIImage(named: "menu")
+		imageView.image = UIImage(named: "profile")
 		imageView.contentMode = .scaleAspectFit
 		imageView.clipsToBounds = true
 		return imageView
