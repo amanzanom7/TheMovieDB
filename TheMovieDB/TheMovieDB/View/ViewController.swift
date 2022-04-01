@@ -19,15 +19,14 @@ class ViewController: UIViewController,UITextFieldDelegate {
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		// Do any additional setup after loading the view.
-		
+
 		self.setComponents()
 		
 	}
 
 	func setComponents()
 	{
-		self.view.backgroundColor = UIColor().hexStringToUIColor("0d253f")
+		self.view.backgroundColor = UIColor().hexStringToUIColor("06161C")
 
 		let imgHeader:UIImageView = UIImageView()
 		imgHeader.contentMode = UIView.ContentMode.scaleAspectFit
@@ -67,10 +66,11 @@ class ViewController: UIViewController,UITextFieldDelegate {
 		self.addElementView(obj: txtPass)
 		self.addElementView(obj: btnLogin)
 		self.addElementView(obj: lblMessage)
-
+	
+		
 		let bloqueConsumo:BloqueGenerico =
 		{ () in
-				self.viewModel.retrieveData(endpoint: "/token/new?api_key=")
+				//self.viewModel.retrieveData(endpoint:"/authentication/token/new?api_key=")
 		}
 		let bloqueRespuesta:BloqueGenerico =
 		{() in}
@@ -155,28 +155,54 @@ class ViewController: UIViewController,UITextFieldDelegate {
 		return true
 	}
 
-	
+
 	@objc func actionLogin()
 	{
 		self.view.endEditing(true)
 		self.lblMessage.isHidden = true
 		var objLoginMessage:AnyObject!
+		let user = self.txtUsr.text!
+		let pass = self.txtPass.text!
 		
-		objLoginMessage = self.viewModel.sendData(endpoint: "validate_with_login?api_key=", user: txtUsr.text!, pass: txtPass.text!)
-		if objLoginMessage.isKind(of: LoginMessage.self)
-		{
-			print("LoginMessage")
-//			if objLoginMessage.success
-//			{
-//
-//			}else {
-//				self.lblMessage.isHidden = false
-//			}
-		}else if objLoginMessage.isKind(of: LoginToken.self)
-		{
-			print("LoginToken")
 
+		let vc = ViewControllerMovies()
+		self.add(asChildViewController: vc)
+
+		if user.isEmpty ||  pass.isEmpty
+		{
+			self.lblMessage.isHidden = false
+		}else {
+			let alerta:ActivityAlert = ActivityAlert.init()
+			alerta.crearControl()
+			self.view.addSubview(alerta)
+			let bloqueConsumo:BloqueGenerico =
+			{ () in
+				objLoginMessage = self.viewModel.sendData(endpoint: "validate_with_login?api_key=", user: user, pass: pass)
+				
+			}
+			let bloqueRespuesta:BloqueGenerico =
+			{() in
+				alerta.removeFromSuperview()
+				
+				if objLoginMessage.isKind(of: LoginMessage.self)
+				{
+					print("LoginMessage")
+					let message:LoginMessage = objLoginMessage as! LoginMessage
+					if !message.success
+					{
+						self.lblMessage.isHidden = false
+					}
+
+				}else if objLoginMessage.isKind(of: LoginToken.self)
+				{
+					let vc = ViewControllerMovies()
+					self.view.addSubview(vc.view)
+					self.didMove(toParent: self)
+				}
+			}
+			self.ejecutaSegundoPlano(bloqueConsumo, bloquePrimerPlano: bloqueRespuesta)
 		}
+
 	
 	}
 

@@ -13,6 +13,22 @@ extension UIViewController
 	{
 		self.view.addSubview(obj)
 	}
+	
+	func add(asChildViewController viewController: UIViewController) {
+		addChild(viewController)
+		view.addSubview(viewController.view)
+		viewController.view.frame = view.bounds
+		viewController.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+		viewController.didMove(toParent: self)
+	}
+}
+extension String {
+	func toImage() -> UIImage? {
+		if let data = Data(base64Encoded: self, options: .ignoreUnknownCharacters){
+			return UIImage(data: data)
+		}
+		return nil
+	}
 }
 
 extension UIColor {
@@ -75,4 +91,3 @@ extension NSObject
 	
 	}
 }
-

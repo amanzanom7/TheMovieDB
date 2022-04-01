@@ -10,16 +10,12 @@ import Foundation
 
 class ViewModelLogin: NSObject{
 	
-	
-	var refreshData = { ( ) -> () in }
-//	let decoder = JSONDecoder()
-
 	var loginToken = LoginToken()
 	let parcer:FeedBack = FeedBack()
 
 	func retrieveData(endpoint:String){
 		
-		let json = 	self.parcer.callWebService(Data(), endpoint: "/token/new?api_key=",post: false)
+		let json = 	self.parcer.callWebService(Data(), endpoint: endpoint,post: false)
 		self.loginToken = LoginToken(json.getData())
 
 	}
@@ -40,7 +36,7 @@ class ViewModelLogin: NSObject{
 			
 			let data = json.data(using: String.Encoding.utf8)!
 			
-			let jsonResponse = parcer.callWebService(data, endpoint: "/token/validate_with_login?api_key=",post: true)
+			let jsonResponse = parcer.callWebService(data, endpoint: "/authentication/token/validate_with_login?api_key=",post: true)
 			let valida = LoginMessage(jsonResponse.getData())
 			if !valida.success
 			{
@@ -50,8 +46,6 @@ class ViewModelLogin: NSObject{
 				let loginExitoso = LoginToken(jsonResponse.getData())
 			      objAnyObject = loginExitoso
 			}
-				//objLoginMessage = try decoder.decode(LoginMessage.self, from: jsonResponse)
-			
 		}else {
 			print(" \(NSLocalizedString("lblLoginValidate", comment: "Invalid user or password"))")
 		}

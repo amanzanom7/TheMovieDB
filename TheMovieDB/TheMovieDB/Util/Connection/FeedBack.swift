@@ -44,7 +44,7 @@ class FeedBack: NSObject, URLSessionDelegate
 	func callWebService(_ request: Data, endpoint:String, post:Bool) -> Data
 	{
 
-		var contURL = Util.getDataPlistFile(nameString: "urlAuth") as? String
+		var contURL = Util.getDataPlistFile(nameString: "urlBase") as? String
 		contURL = contURL! + endpoint + Util.Encabezado.login
 		guard let url = URL (string: contURL!) else { return Data() }
 		
