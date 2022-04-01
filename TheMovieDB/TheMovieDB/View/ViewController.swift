@@ -80,13 +80,13 @@ class ViewController: UIViewController,UITextFieldDelegate {
 		self.ejecutaSegundoPlano(bloqueConsumo, bloquePrimerPlano: bloqueRespuesta)
 
 	}
-	
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(true)
-		
-		Singleton.resetInstance()
-		self.txtUsr.text = ""
-		self.txtPass.text = ""
+
+	}
+	override func viewWillDisappear(_ animated: Bool) {
+		super.viewWillDisappear(animated)
+
 	}
 	override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
 
@@ -194,10 +194,15 @@ class ViewController: UIViewController,UITextFieldDelegate {
 	}
 	func logout()
 	{
+
 		viewModel.deleteData(endpoint: "authentication/session?api_key=", sesionID: sesion.request_token)
 		vcMovies.willMove(toParent: nil)
 		vcMovies.view.removeFromSuperview()
 		vcMovies.removeFromParent()
+		
+		Singleton.resetInstance()
+		self.txtUsr.text = ""
+		self.txtPass.text = ""
 	}
 }
 

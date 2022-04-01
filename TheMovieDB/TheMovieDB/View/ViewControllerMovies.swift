@@ -45,6 +45,12 @@ class ViewControllerMovies: UIViewController, UICollectionViewDataSource, UIColl
 		
 	}
 	
+	override func viewWillDisappear(_ animated: Bool) {
+		super.viewWillDisappear(animated)
+		
+		self.guardaFavorito()
+	}
+	
 	
 	func setComponents()
 	{
@@ -141,21 +147,6 @@ class ViewControllerMovies: UIViewController, UICollectionViewDataSource, UIColl
 		
 		for obj in Singleton.sharedInstance.resultsResponse
 		{
-			/*
-			var flag = true
-			for objFile in categoriasMovies
-			{
-				if objFile.id == obj.id
-				{
-					flag = false
-					break
-				}else if obj.off
-				{
-					   flag = false
-				}
-			}
-			if flag
-			{*/
 				let cat = CategoriaMovies()
 				cat.backdrop_path = obj.backdrop_path
 				cat.original_language = obj.original_language
@@ -170,10 +161,7 @@ class ViewControllerMovies: UIViewController, UICollectionViewDataSource, UIColl
 				cat.popularity = obj.popularity
 				cat.media_type = obj.media_type
 				categoriasMovies.append(cat)
-			//}
 		}
-	
-
 		if let dir = NSSearchPathForDirectoriesInDomains(FileManager.SearchPathDirectory.documentDirectory, FileManager.SearchPathDomainMask.allDomainsMask, true).first {
 			let usr = Singleton.sharedInstance.userLogin + ".txt"
 			let path = URL(fileURLWithPath: dir).appendingPathComponent(usr)
@@ -186,9 +174,9 @@ class ViewControllerMovies: UIViewController, UICollectionViewDataSource, UIColl
 				print("\(error.localizedDescription)")
 			}
 		}
-		getCategoria()
-		
+
 	}
+
 	func getCategoria()
 	{
 		var categoriasMovies:Array<CategoriaMovies> = Array<CategoriaMovies>()
@@ -203,11 +191,27 @@ class ViewControllerMovies: UIViewController, UICollectionViewDataSource, UIColl
 			do {
 				let fileContent =  try Data(contentsOf: path)
 				guard let objetoArray = try NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(fileContent) as? [CategoriaMovies] else { return  }
+				var resultsResponse: Array<ResultsVO> =  Array<ResultsVO>()
 				for obj in objetoArray {
 					categoriasMovies.append(obj)
+					let cat = ResultsVO()
+					cat.backdrop_path = obj.backdrop_path
+					cat.original_language = obj.original_language
+					cat.original_title = obj.original_title
+					cat.poster_path = obj.poster_path
+					cat.vote_average = obj.vote_average
+					cat.vote_count = obj.vote_count
+					cat.overview = obj.overview
+					cat.release_date = obj.release_date
+					cat.title = obj.title
+					cat.id = obj.id
+					cat.popularity = obj.popularity
+					cat.media_type = obj.media_type
+					resultsResponse.append(cat)
 				}
-				Singleton.sharedInstance.categoriasMovies = categoriasMovies
+				Singleton.sharedInstance.resultsResponse = resultsResponse
 
+			
 			} catch {
 			}
 		}
@@ -250,7 +254,7 @@ class ViewControllerMovies: UIViewController, UICollectionViewDataSource, UIColl
 		let date = "Premier: " +  obj.release_date
 		let average = "Vote: " +  String.init(format:"%.1f",obj.vote_average)
 		let img = obj.poster_path
-		cell.configureImg(nameImg: img)
+		cell.configureImg(nameImg: img!)
 		cell.configureLbl(nameLbl: obj.original_title,description: obj.overview, date:date, average: average)
 		return cell
 	}
@@ -259,7 +263,7 @@ class ViewControllerMovies: UIViewController, UICollectionViewDataSource, UIColl
 		
 		let obj = viewModel.resultsResponse[indexPath.row]
 		let idmovie = obj.id
-		let endpoint = "/movie/" + String.init(format: "%i",idmovie) + "?api_key="
+		let endpoint = "/movie/" + String.init(format: "%i",idmovie!) + "?api_key="
 		viewModel.retrieveDataDetail(endpoint: endpoint,parameter: true, stringParameter: "&language=es-MX")
 		
 		let xPostion:CGFloat = self.segmentedControl?.frame.origin.x ?? 0
@@ -296,7 +300,7 @@ class ViewControllerMovies: UIViewController, UICollectionViewDataSource, UIColl
 	{
 		btnCerrarDetail?.removeFromSuperview()
 		containerView?.removeFromSuperview()
-		self.guardaFavorito()
+		
 	}
 	
 	

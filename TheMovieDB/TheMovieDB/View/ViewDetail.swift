@@ -109,9 +109,9 @@ class ViewDetail: UIView, UICollectionViewDataSource, UICollectionViewDelegate
 		
 		btnFav.frame = CGRect(x: offSetX, y: offSetYlblGenero, width: 45, height: 45)
 		btnFav.setBackgroundImage(imageOff!, for: UIControl.State.normal)
-		if Singleton.sharedInstance.categoriasMovies.count > 0
+		if Singleton.sharedInstance.resultsResponse.count > 0
 		{
-			for obj in Singleton.sharedInstance.categoriasMovies
+			for obj in Singleton.sharedInstance.resultsResponse
 			{
 				if obj.id == self.resultsResponse.id
 				{

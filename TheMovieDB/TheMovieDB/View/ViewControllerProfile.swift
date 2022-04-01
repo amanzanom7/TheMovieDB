@@ -82,12 +82,12 @@ class ViewControllerProfile: UIViewController, UICollectionViewDataSource, UICol
 	}
 	
 	func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-		Singleton.sharedInstance.categoriasMovies.count
+		Singleton.sharedInstance.resultsResponse.count
 	}
 	
 	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CustomCollectionCell.identifier, for: indexPath) as! CustomCollectionCell
-		let obj = Singleton.sharedInstance.categoriasMovies[indexPath.row]
+		let obj = Singleton.sharedInstance.resultsResponse[indexPath.row]
 		let date = "Premier: " +  obj.release_date
 		let average = "Vote: " +  String.init(format:"%.1f",obj.vote_average)
 		let img = obj.poster_path
