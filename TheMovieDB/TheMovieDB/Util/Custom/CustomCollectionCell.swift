@@ -120,7 +120,6 @@ class CustomCollectionCell: UICollectionViewCell {
 	func getImage(from string: String) -> UIImage? {
 		guard let url = URL(string: string)
 			else {
-				print("Unable to create URL")
 				return nil
 		}
 

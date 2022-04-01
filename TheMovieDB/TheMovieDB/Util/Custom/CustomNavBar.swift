@@ -11,6 +11,7 @@ class CustomNavBar: UIView {
 	
 	var btnMenu:UIButton!
 	var lblTittle:UILabel!
+	var controller:ViewControllerMovies!
 	
 	override init(frame: CGRect) {
 		super.init(frame: frame)
@@ -29,7 +30,7 @@ class CustomNavBar: UIView {
 		
 		let offSetY:CGFloat = 60
 		
-		self.btnMenu = Util.createButton(posX: UIScreen.main.bounds.maxX-50 , posY: offSetY, width: 30, height: 30, tittle: "", actionSelector:  nil, colorTitleColor: UIColor.clear)
+		self.btnMenu = Util.createButton(posX: UIScreen.main.bounds.maxX-50 , posY: offSetY, width: 30, height: 30, tittle: "", actionSelector:  #selector(self.controller.actionAlert), colorTitleColor: UIColor.clear)
 		btnMenu.setImage(UIImage(named: "menu"), for: .normal)
 		self.addSubview(btnMenu)
 		
@@ -39,5 +40,5 @@ class CustomNavBar: UIView {
 		
 	}
 	
-	
+
 }

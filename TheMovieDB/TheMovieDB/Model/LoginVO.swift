@@ -40,7 +40,35 @@ class LoginValidate: JSONJoy{
 
 	}
 }
+class SesionDelete: JSONJoy{
+	var session_id:String = ""
 
+	
+	init(){}
+	
+	init(session_id:String)
+	{
+		self.session_id = session_id
+	}
+	required init(_ decoder: JSONDecoder) {
+
+	}
+}
+class SesionToken: JSONJoy{
+	var success: Bool = false
+	var expires_at:String = ""
+	var request_token:String = ""
+	
+	init(){}
+
+	required init(_ decoder: JSONDecoder) {
+
+		success           = decoder["success"].bool
+		expires_at    = decoder["expires_at"].string != nil ? decoder["expires_at"].string! : ""
+		request_token = decoder["request_token"].string != nil ? decoder["request_token"].string! : ""
+	}
+	
+}
 class LoginMessage: JSONJoy{
 	var success: Bool = false
 	var status_code:String = ""

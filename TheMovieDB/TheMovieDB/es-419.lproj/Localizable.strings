@@ -16,3 +16,7 @@ popular =  "Popular";
 toprated =  "Mejores";
 ontv =  "En TV";
 airingtoday =  "En vivo";
+tittlePerfil =  "¿Qué es lo que quieres hacer?";
+logout =  "Salir";
+profile = "Ver Perfil";
+cancel = "Cancelar";

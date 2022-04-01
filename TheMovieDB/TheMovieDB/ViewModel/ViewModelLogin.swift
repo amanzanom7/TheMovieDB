@@ -11,11 +11,12 @@ import Foundation
 class ViewModelLogin: NSObject{
 	
 	var loginToken = LoginToken()
+	var sesionToken = SesionToken()
 	let parcer:FeedBack = FeedBack()
 
 	func retrieveData(endpoint:String){
 		
-		let json = 	self.parcer.callWebService(Data(), endpoint: endpoint,post: false)
+		let json = 	self.parcer.callWebService(Data(), endpoint: endpoint,post: false,parameter: false, stringParameter: "")
 		self.loginToken = LoginToken(json.getData())
 
 	}
@@ -36,14 +37,14 @@ class ViewModelLogin: NSObject{
 			
 			let data = json.data(using: String.Encoding.utf8)!
 			
-			let jsonResponse = parcer.callWebService(data, endpoint: "/authentication/token/validate_with_login?api_key=",post: true)
+			let jsonResponse = parcer.callWebService(data, endpoint: "/authentication/token/validate_with_login?api_key=",post: true,parameter: false, stringParameter: "")
 			let valida = LoginMessage(jsonResponse.getData())
 			if !valida.success
 			{
 			      objAnyObject  = valida
 				
 			}else {
-				let loginExitoso = LoginToken(jsonResponse.getData())
+				let loginExitoso = SesionToken(jsonResponse.getData())
 			      objAnyObject = loginExitoso
 			}
 		}else {
@@ -52,5 +53,31 @@ class ViewModelLogin: NSObject{
 		
 		return objAnyObject
 	}
+	func deleteData(endpoint:String, sesionID:String)
+	{
 
+		let sesionID = sesionID
+		if !sesionID.isEmpty
+		{
+			
+			let logDelete = SesionDelete.init(session_id: sesionID)
+			
+			let json = JSONSerializer.toJson(logDelete)
+			print("json: \(json)")
+			
+			let data = json.data(using: String.Encoding.utf8)!
+			
+			let jsonResponse = parcer.callWebService(data, endpoint: endpoint,post: false,parameter: false, stringParameter: "")
+			let valida = jsonResponse.getData().bool
+			if valida
+			{
+				  
+				
+			}else {
+				
+			}
+		}else {
+			print(" \(NSLocalizedString("lblLoginValidate", comment: "Invalid user or password"))")
+		}
+	}
 }

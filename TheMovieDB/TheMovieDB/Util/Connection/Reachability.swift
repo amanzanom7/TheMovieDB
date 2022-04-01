@@ -35,14 +35,19 @@ enum ReachabilityError: Error {
     case unableToSetDispatchQueue
 }
 
+typealias SCNetworkReachabilityCallBack = (
+	SCNetworkReachability,
+	SCNetworkReachabilityFlags,
+	UnsafeMutableRawPointer?) -> Void
+
 public let ReachabilityChangedNotification = "ReachabilityChangedNotification"
 
-func callback(_ reachability:SCNetworkReachability, flags: SCNetworkReachabilityFlags, info: UnsafeMutableRawPointer) {
-    let reachability = Unmanaged<Reachability>.fromOpaque(info).takeUnretainedValue()
+func callback(_ reachability:SCNetworkReachability, flags: SCNetworkReachabilityFlags, info: UnsafeMutableRawPointer?) {
+	let reachability = Unmanaged<Reachability>.fromOpaque(info!).takeUnretainedValue()
 
-    DispatchQueue.main.async {
-        reachability.reachabilityChanged(flags)
-    }
+	DispatchQueue.main.async {
+		reachability.reachabilityChanged(flags)
+	}
 }
 
 
@@ -149,7 +154,7 @@ open class Reachability: NSObject {
 
         context.info = UnsafeMutableRawPointer(Unmanaged.passUnretained(self).toOpaque())
         
-		if !SCNetworkReachabilitySetCallback(reachabilityRef!, callback as? SCNetworkReachabilityCallBack, &context) {
+		if !SCNetworkReachabilitySetCallback(reachabilityRef!, callback, &context) {
             stopNotifier()
             throw ReachabilityError.unableToSetCallback
         }

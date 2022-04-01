@@ -33,6 +33,7 @@ class FeedBack: NSObject, URLSessionDelegate
 	var callPetition = NSMutableURLRequest()
 	var dataResponse:Data = Data()
 	var stringResponse:String = ""
+	var delete:Bool = false
 	override init()
 	{
 		super.init()
@@ -41,11 +42,15 @@ class FeedBack: NSObject, URLSessionDelegate
 
 	
 
-	func callWebService(_ request: Data, endpoint:String, post:Bool) -> Data
+	func callWebService(_ request: Data, endpoint:String, post:Bool, parameter:Bool, stringParameter:String) -> Data
 	{
 
 		var contURL = Util.getDataPlistFile(nameString: "urlBase") as? String
 		contURL = contURL! + endpoint + Util.Encabezado.login
+		if parameter
+		{
+			contURL = contURL! + stringParameter
+		}
 		guard let url = URL (string: contURL!) else { return Data() }
 		
 		let timeOut:TimeInterval = TimeInterval(iTimeOut)
@@ -55,7 +60,13 @@ class FeedBack: NSObject, URLSessionDelegate
 			callPetition.httpMethod = "POST"
 			callPetition.addValue("application/json", forHTTPHeaderField: "Content-Type")
 			callPetition.httpBody = request
+		}else if self.delete
+		{
+			callPetition.httpMethod = "DELETE"
+			callPetition.addValue("application/json", forHTTPHeaderField: "Content-Type")
+			callPetition.httpBody = request
 		}
+		
 
 		if Util.netStatus() == Reachability.NetworkStatus.notReachable
 		{

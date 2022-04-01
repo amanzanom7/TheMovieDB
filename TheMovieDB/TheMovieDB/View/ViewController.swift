@@ -16,6 +16,8 @@ class ViewController: UIViewController,UITextFieldDelegate {
 
 	
 	var viewModel = ViewModelLogin()
+	let vcMovies = ViewControllerMovies()
+	var sesion:SesionToken!
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -70,7 +72,7 @@ class ViewController: UIViewController,UITextFieldDelegate {
 		
 		let bloqueConsumo:BloqueGenerico =
 		{ () in
-				//self.viewModel.retrieveData(endpoint:"/authentication/token/new?api_key=")
+				self.viewModel.retrieveData(endpoint:"/authentication/token/new?api_key=")
 		}
 		let bloqueRespuesta:BloqueGenerico =
 		{() in}
@@ -81,6 +83,8 @@ class ViewController: UIViewController,UITextFieldDelegate {
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(true)
 		
+		self.txtUsr.text = ""
+		self.txtPass.text = ""
 	}
 	override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
 
@@ -164,10 +168,6 @@ class ViewController: UIViewController,UITextFieldDelegate {
 		let user = self.txtUsr.text!
 		let pass = self.txtPass.text!
 		
-
-		let vc = ViewControllerMovies()
-		self.add(asChildViewController: vc)
-
 		if user.isEmpty ||  pass.isEmpty
 		{
 			self.lblMessage.isHidden = false
@@ -177,7 +177,7 @@ class ViewController: UIViewController,UITextFieldDelegate {
 			self.view.addSubview(alerta)
 			let bloqueConsumo:BloqueGenerico =
 			{ () in
-				objLoginMessage = self.viewModel.sendData(endpoint: "validate_with_login?api_key=", user: user, pass: pass)
+				objLoginMessage = self.viewModel.sendData(endpoint: "/authentication/token/validate_with_login?api_key", user: user, pass: pass)
 				
 			}
 			let bloqueRespuesta:BloqueGenerico =
@@ -193,11 +193,11 @@ class ViewController: UIViewController,UITextFieldDelegate {
 						self.lblMessage.isHidden = false
 					}
 
-				}else if objLoginMessage.isKind(of: LoginToken.self)
+				}else if objLoginMessage.isKind(of: SesionToken.self)
 				{
-					let vc = ViewControllerMovies()
-					self.view.addSubview(vc.view)
-					self.didMove(toParent: self)
+					self.sesion = (objLoginMessage as! SesionToken)
+					self.vcMovies.controller = self
+					self.add(asChildViewController: self.vcMovies)
 				}
 			}
 			self.ejecutaSegundoPlano(bloqueConsumo, bloquePrimerPlano: bloqueRespuesta)
@@ -205,6 +205,12 @@ class ViewController: UIViewController,UITextFieldDelegate {
 
 	
 	}
-
+	func logout()
+	{
+		viewModel.deleteData(endpoint: "authentication/session?api_key=", sesionID: sesion.request_token)
+		vcMovies.willMove(toParent: nil)
+		vcMovies.view.removeFromSuperview()
+		vcMovies.removeFromParent()
+	}
 }
 
