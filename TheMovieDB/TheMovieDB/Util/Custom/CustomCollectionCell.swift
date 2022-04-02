@@ -20,57 +20,34 @@ class CustomCollectionCell: UICollectionViewCell {
 		return imageView
 	}()
 	
-	private let lblTitulo:UILabel = {
-		let label = UILabel()
-		label.text = ""
-		label.numberOfLines = 2
-		label.backgroundColor = UIColor.clear
-		label.textColor = UIColor.orange
-		label.font = UIFont.boldSystemFont(ofSize: 14.0)
-		label.textAlignment = NSTextAlignment.center
-		label.adjustsFontSizeToFitWidth = true
-		return label
-	}()
+	private var lblTitulo:UILabel = UILabel()
 	
-	private let lblDescrip:UILabel = {
-		let label = UILabel()
-		label.text = ""
-		label.numberOfLines = 12
-		label.backgroundColor = UIColor.clear
-		label.textColor = UIColor.white
-		label.font = UIFont.boldSystemFont(ofSize: 13.0)
-		label.textAlignment = NSTextAlignment.center
-		label.adjustsFontSizeToFitWidth = true
-		return label
-	}()
+	private var lblDescrip:UILabel = UILabel()
 	
-	private let lblDate:UILabel = {
-		let label = UILabel()
-		label.text = ""
-		label.numberOfLines = 1
-		label.backgroundColor = UIColor.clear
-		label.textColor = UIColor.white
-		label.font = UIFont.boldSystemFont(ofSize: 13.0)
-		label.textAlignment = NSTextAlignment.center
-		label.adjustsFontSizeToFitWidth = true
-		return label
-	}()
+	private var lblDate:UILabel = UILabel()
 	
-	private let lblAverage:UILabel = {
-		let label = UILabel()
-		label.text = ""
-		label.numberOfLines = 1
-		label.backgroundColor = UIColor.clear
-		label.textColor = UIColor.white
-		label.font = UIFont.boldSystemFont(ofSize: 13.0)
-		label.textAlignment = NSTextAlignment.center
-		label.adjustsFontSizeToFitWidth = true
-		return label
-	}()
+	private var lblAverage:UILabel = UILabel()
 	
 	override init(frame: CGRect) {
 		super.init(frame: frame)
 		contentView.backgroundColor = .clear
+		let offSetX:CGFloat = 205
+
+		self.lblTitulo =  Util.createLabel(posX: 200, posY: 0, width: contentView.frame.size.width/2.4, height: 50, tittle: "", colorTitleColor: UIColor.orange)
+		lblTitulo.numberOfLines = 2
+		
+		let offSetY = lblTitulo.frame.origin.y + lblTitulo.frame.size.height + 10
+		lblDescrip =  Util.createLabel(posX: offSetX, posY: offSetY, width: contentView.frame.size.width/2.5, height: 150, tittle: "", colorTitleColor: UIColor.white)
+		lblDescrip.numberOfLines = 12
+		lblDescrip.font = UIFont.boldSystemFont(ofSize: 13.0)
+
+
+		let offSetYlblDate = lblDescrip.frame.origin.y + lblDescrip.frame.size.height
+		lblDate =  Util.createLabel(posX: offSetX, posY: offSetYlblDate, width: contentView.frame.size.width/2.5, height: 50, tittle: "", colorTitleColor: UIColor.white)
+
+		let offSetYlblAverage = lblDate.frame.origin.y + lblDate.frame.size.height + 5
+		lblAverage =  Util.createLabel(posX: offSetX, posY: offSetYlblAverage, width: contentView.frame.size.width/2.4, height: 35, tittle: "", colorTitleColor: UIColor.white)
+		
 		contentView.addSubview(lblTitulo)
 		contentView.addSubview(lblDescrip)
 		contentView.addSubview(lblDate)
@@ -85,20 +62,8 @@ class CustomCollectionCell: UICollectionViewCell {
 	override func layoutSubviews() {
 		super.layoutSubviews()
 		
-		let offSetX:CGFloat = 205
 		imgViewCell.frame = CGRect(x: -70, y: 0, width: contentView.frame.size.width, height: contentView.frame.size.height)
-		
-		lblTitulo.frame = CGRect(x: 200, y: 0, width: contentView.frame.size.width/2.4, height: 50)
-		
-		let offSetY = lblTitulo.frame.origin.y + lblTitulo.frame.size.height + 10
-		lblDescrip.frame = CGRect(x: offSetX, y: offSetY, width: contentView.frame.size.width/2.5, height: 150)
-
-		let offSetYlblDate = lblDescrip.frame.origin.y + lblDescrip.frame.size.height
-		lblDate.frame = CGRect(x: offSetX, y: offSetYlblDate, width: contentView.frame.size.width/2.5, height: 50)
-		
-		let offSetYlblAverage = lblDate.frame.origin.y + lblDate.frame.size.height + 5
-		lblAverage.frame = CGRect(x: offSetX, y: offSetYlblAverage, width: contentView.frame.size.width/2.4, height: 35)
-
+	
 	}
 	
 	public func configureLbl(nameLbl:String, description:String, date:String, average:String)

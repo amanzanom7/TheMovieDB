@@ -56,7 +56,7 @@ class ViewController: UIViewController,UITextFieldDelegate {
 		txtPass.delegate = self
 		
 		let offSetYBtn = txtPass.frame.origin.y + txtPass.frame.size.height + spaceHeight
-		btnLogin = Util.createButton(posX: offSetXUser, posY: offSetYBtn, width: offSetwidthUser, height: offSetheightUser, tittle: NSLocalizedString("textLoginBtn", comment: "Login"), actionSelector:  #selector(self.actionLogin), colorTitleColor: UIColor().hexStringToUIColor("d9d6d2"))
+		btnLogin = Util.createButton(posX: offSetXUser, posY: offSetYBtn, width: offSetwidthUser, height: offSetheightUser, tittle: NSLocalizedString("textLoginBtn", comment: "Login"), actionSelector:  #selector(self.actionLogin), colorBackground: UIColor().hexStringToUIColor("d9d6d2"))
 		
 		let offSetXlbl:CGFloat = 20
 		let offSetYlbl = btnLogin.frame.origin.y + btnLogin.frame.size.height + spaceHeight

@@ -27,63 +27,49 @@ class ViewDetail: UIView, UICollectionViewDataSource, UICollectionViewDelegate
 		super.init(coder: aDecoder)
 	}
 	
-	private let lblTitulo:UILabel = {
-		let label = UILabel()
-		label.text = ""
-		label.numberOfLines = 1
-		label.backgroundColor = UIColor.clear
-		label.textColor = UIColor.white
-		label.font = UIFont.boldSystemFont(ofSize: 18.0)
-		label.textAlignment = NSTextAlignment.left
-		label.adjustsFontSizeToFitWidth = true
-		return label
-	}()
+	private var lblTitulo:UILabel = UILabel()
 	
-	private let lblDescrip:UILabel = {
-		let label = UILabel()
-		label.text = ""
-		label.numberOfLines = 10
-		label.backgroundColor = UIColor.clear
-		label.textColor = UIColor.white
-		label.font = UIFont.boldSystemFont(ofSize: 16.0)
-		label.textAlignment = NSTextAlignment.justified
-		label.adjustsFontSizeToFitWidth = true
-		return label
-	}()
+	private var lblDescrip:UILabel = UILabel()
 	
-	private let lblGenero:UILabel = {
-		let label = UILabel()
-		label.text = ""
-		label.numberOfLines = 1
-		label.backgroundColor = UIColor.clear
-		label.textColor = UIColor.white
-		label.font = UIFont.boldSystemFont(ofSize: 16.0)
-		label.textAlignment = NSTextAlignment.center
-		label.adjustsFontSizeToFitWidth = true
-		return label
-	}()
+	private var lblGenero:UILabel = UILabel()
 	
-	private let lblTittleProductora:UILabel = {
-		let label = UILabel()
-		label.text = "Productoras: "
-		label.numberOfLines = 1
-		label.backgroundColor = UIColor.clear
-		label.textColor = UIColor.white
-		label.font = UIFont.boldSystemFont(ofSize: 16.0)
-		label.textAlignment = NSTextAlignment.center
-		label.adjustsFontSizeToFitWidth = true
-		return label
-	}()
+	private var lblTittleProductora:UILabel = UILabel()
 	
-	private let btnFav:UIButton = {
-		let btn = UIButton()
-		btn.backgroundColor = .white
-		return btn
-	}()
+	private var btnFav:UIButton = UIButton()
 	
 	override init(frame: CGRect) {
 		super.init(frame: frame)
 		self.backgroundColor = .darkGray
+		
+		let offSetX:CGFloat = 10
+		let offSetWidth:CGFloat = self.frame.size.width - 20
+
+		self.lblTitulo =  Util.createLabel(posX: offSetX, posY: 0, width:offSetWidth, height: 35, tittle: "", colorTitleColor: UIColor.white)
+		lblTitulo.numberOfLines = 10
+		lblTitulo.font = UIFont.boldSystemFont(ofSize: 18.0)
+		lblTitulo.textAlignment = NSTextAlignment.left
+
+		
+		let offSetYlblTitulo:CGFloat = lblTitulo.frame.origin.y + lblTitulo.frame.size.height + 20
+		lblDescrip =  Util.createLabel(posX: offSetX, posY: offSetYlblTitulo, width: offSetWidth, height: 140, tittle: "", colorTitleColor: UIColor.white)
+		lblDescrip.numberOfLines = 10
+		lblDescrip.font = UIFont.boldSystemFont(ofSize: 16.0)
+		lblDescrip.textAlignment = NSTextAlignment.justified
+
+
+		let offSetYlblDescrip:CGFloat = lblDescrip.frame.origin.y + lblDescrip.frame.size.height + 10
+		lblGenero =  Util.createLabel(posX: offSetX, posY: offSetYlblDescrip, width: offSetWidth, height: 35, tittle: "", colorTitleColor: UIColor.white)
+		lblGenero.font = UIFont.boldSystemFont(ofSize: 16.0)
+
+
+		let offSetYlblGenero:CGFloat = lblGenero.frame.origin.y + lblGenero.frame.size.height
+		lblTittleProductora =  Util.createLabel(posX: offSetX, posY: offSetYlblGenero, width: offSetWidth, height: 35, tittle: "Productoras: ", colorTitleColor: UIColor.white)
+		lblTittleProductora.font = UIFont.boldSystemFont(ofSize: 16.0)
+
+		btnFav = Util.createButton(posX: offSetX, posY: offSetYlblGenero, width: 45, height: 45, tittle: "", actionSelector: nil
+								   , colorBackground: UIColor.white)
+		btnFav.setBackgroundImage(imageOff!, for: UIControl.State.normal)
+		
 		self.addSubview(lblTitulo)
 		self.addSubview(lblDescrip)
 		self.addSubview(lblGenero)
@@ -93,22 +79,7 @@ class ViewDetail: UIView, UICollectionViewDataSource, UICollectionViewDelegate
 	override func layoutSubviews() {
 		super.layoutSubviews()
 
-		let offSetX:CGFloat = 10
-		let offSetWidth:CGFloat = self.frame.size.width - 20
 		
-		lblTitulo.frame = CGRect(x: offSetX, y: 0, width: offSetWidth, height: 35)
-		
-		let offSetYlblTitulo:CGFloat = lblTitulo.frame.origin.y + lblTitulo.frame.size.height + 20
-		lblDescrip.frame = CGRect(x: offSetX, y: offSetYlblTitulo, width: offSetWidth, height: 140)
-
-		let offSetYlblDescrip:CGFloat = lblDescrip.frame.origin.y + lblDescrip.frame.size.height + 10
-		lblGenero.frame = CGRect(x: offSetX, y: offSetYlblDescrip, width: offSetWidth, height: 35)
-		
-		let offSetYlblGenero:CGFloat = lblGenero.frame.origin.y + lblGenero.frame.size.height 
-		lblTittleProductora.frame = CGRect(x: offSetX, y: offSetYlblGenero, width: offSetWidth, height: 35)
-		
-		btnFav.frame = CGRect(x: offSetX, y: offSetYlblGenero, width: 45, height: 45)
-		btnFav.setBackgroundImage(imageOff!, for: UIControl.State.normal)
 		if Singleton.sharedInstance.resultsResponse.count > 0
 		{
 			for obj in Singleton.sharedInstance.resultsResponse
@@ -170,7 +141,7 @@ class ViewDetail: UIView, UICollectionViewDataSource, UICollectionViewDelegate
 	func collectionControl()
 	{
 		let xPostionCollection:CGFloat = 20
-		let yPostionCollection:CGFloat = 270
+		let yPostionCollection:CGFloat = 290
 		let elementWidthCollection:CGFloat = 300
 		let elementHeightCollection:CGFloat = self.frame.size.height / 1.8
 				

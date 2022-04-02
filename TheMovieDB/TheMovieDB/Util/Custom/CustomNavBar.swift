@@ -30,7 +30,7 @@ class CustomNavBar: UIView {
 		
 		let offSetY:CGFloat = 60
 		
-		self.btnMenu = Util.createButton(posX: UIScreen.main.bounds.maxX-50 , posY: offSetY, width: 30, height: 30, tittle: "", actionSelector:  #selector(self.controller.actionAlert), colorTitleColor: UIColor.clear)
+		self.btnMenu = Util.createButton(posX: UIScreen.main.bounds.maxX-50 , posY: offSetY, width: 30, height: 30, tittle: "", actionSelector:  #selector(self.controller.actionAlert), colorBackground: UIColor.clear)
 		btnMenu.setImage(UIImage(named: "menu"), for: .normal)
 		self.addSubview(btnMenu)
 		

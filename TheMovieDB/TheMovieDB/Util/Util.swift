@@ -35,12 +35,12 @@ open class Util : NSObject
 		return txtGen
 	}
 	
-	static func createButton(posX:CGFloat, posY:CGFloat, width:CGFloat, height:CGFloat, tittle:String, actionSelector:Selector?, colorTitleColor:UIColor) -> UIButton
+	static func createButton(posX:CGFloat, posY:CGFloat, width:CGFloat, height:CGFloat, tittle:String, actionSelector:Selector?, colorBackground:UIColor) -> UIButton
 	{
 		let btnGen =  UIButton.init(frame: CGRect(x: posX,y: posY, width: width , height: height))
 		btnGen.backgroundColor = UIColor.clear
 		btnGen.setTitle(tittle, for: .normal)
-		btnGen.backgroundColor = colorTitleColor 
+		btnGen.backgroundColor = colorBackground
 		if actionSelector != nil{
 			btnGen.addTarget(nil, action: actionSelector!, for: UIControl.Event.touchUpInside)
 		}

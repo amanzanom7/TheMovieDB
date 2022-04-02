@@ -282,7 +282,7 @@ class ViewControllerMovies: UIViewController, UICollectionViewDataSource, UIColl
 		let image = UIImage(named: "close")
 		let xPostionBtn:CGFloat = (containerView?.frame.size.width)! - 10
 		
-		btnCerrarDetail = Util.createButton(posX:  xPostionBtn, posY: yPostion, width: 40, height: 40, tittle: "", actionSelector:  #selector(self.cerrarVentana), colorTitleColor: UIColor().hexStringToUIColor("d9d6d2"))
+		btnCerrarDetail = Util.createButton(posX:  xPostionBtn, posY: yPostion, width: 40, height: 40, tittle: "", actionSelector:  #selector(self.cerrarVentana), colorBackground: UIColor().hexStringToUIColor("d9d6d2"))
 		btnCerrarDetail!.setBackgroundImage(image, for: UIControl.State.normal)
 		btnCerrarDetail!.backgroundColor = .clear
 		self.addElementView(obj: btnCerrarDetail!)
