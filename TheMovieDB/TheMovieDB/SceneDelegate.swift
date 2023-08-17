@@ -19,7 +19,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 		guard let windowScene = (scene as? UIWindowScene) else { return }
 		
 		window = UIWindow(windowScene: windowScene)
-		print("Application directory: \(NSHomeDirectory())")
 		let viewController = ViewController()
 
 		window?.rootViewController = viewController
